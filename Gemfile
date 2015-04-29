@@ -14,15 +14,12 @@ gem 'devise'
 
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-group :development do
+group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'rspec-rails'
-end
-
-group :test do
   gem 'faker'
 end
