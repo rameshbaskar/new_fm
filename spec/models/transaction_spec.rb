@@ -32,4 +32,23 @@ RSpec.describe Transaction, type: :model do
       expect(FactoryGirl.build(:transaction, amount: nil)).to_not be_valid
     end
   end
+
+  describe 'data' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:income_cat) { FactoryGirl.create(:category, user: user) }
+    let(:expense_cat) { FactoryGirl.create(:category, :expense, user: user) }
+    let(:currency) { FactoryGirl.create(:currency) }
+
+    it 'should be able to identify the category as income if that is the case' do
+      transaction = FactoryGirl.create(:transaction, user: user, category: income_cat, currency: currency)
+      expect(transaction.income?).to be_truthy
+      expect(transaction.expense?).to be_falsey
+    end
+
+    it 'should be able to identify the category as expense if that is the case' do
+      transaction = FactoryGirl.create(:transaction, user: user, category: expense_cat, currency: currency)
+      expect(transaction.income?).to be_falsey
+      expect(transaction.expense?).to be_truthy
+    end
+  end
 end

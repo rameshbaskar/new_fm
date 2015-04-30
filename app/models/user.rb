@@ -8,4 +8,12 @@ class User < ActiveRecord::Base
   has_many :transactions
 
   validates_presence_of :full_name, :email
+
+  def incomes
+    transactions.select { |t| t.income? }
+  end
+
+  def expenses
+    transactions.select { |t| t.expense? }
+  end
 end

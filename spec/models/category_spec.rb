@@ -38,4 +38,18 @@ RSpec.describe Category, type: :model do
       expect(FactoryGirl.build(:category, category_type: ' ')).to_not be_valid
     end
   end
+
+  describe 'data' do
+    it 'should be able to identify itself as income if that is the case' do
+      cat = FactoryGirl.create(:category)
+      expect(cat.income?).to be_truthy
+      expect(cat.expense?).to be_falsey
+    end
+
+    it 'should be able to identify itself as expense if that is the case' do
+      cat = FactoryGirl.create(:category, :expense)
+      expect(cat.income?).to be_falsey
+      expect(cat.expense?).to be_truthy
+    end
+  end
 end
