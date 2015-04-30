@@ -1,7 +1,37 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+def user
+  u = FactoryGirl.create(:user)
+  puts "\nCreated user {email: #{u.email}, password: #{u.password}}"
+  u
+end
+
+def admin
+  a = FactoryGirl.create(:user, :admin)
+  puts "\nCreated admin {email: #{a.email}, password: #{a.password}}"
+  a
+end
+
+def category(user, type)
+  c = FactoryGirl.create(:category, user: user, category_type: type)
+  puts "\nCreated category {name: #{c.category_name}, type: #{c.category_type}} belonging to #{user.email}"
+  c
+end
+
+def currency
+  c = FactoryGirl.create(:currency)
+  puts "\nCreated currency {code: #{c.currency_code}, name: #{c.currency_name}}"
+  c
+end
+
+def transaction(user, category, currency)
+  t = FactoryGirl.create(:transaction, user: user, category: category, currency: currency)
+  puts "\nCreated transaction {description: #{t.description}, user: #{user.email}, category_type: #{category.category_type}, currency: #{currency.currency_code}}"
+  t
+end
+
+u = user
+admin
+income = category(u, 'income')
+expense = category(u, 'expense')
+c = currency
+10.times { transaction(u, income, c) }
+10.times { transaction(u, expense, c) }
